@@ -18,8 +18,8 @@ app.use(express.static(publicDirPath));
 
 io.on('connection', (socket) => {
     console.log('New connection established');
-    socket.on('join', ({username, room}, callback) => {
-        const {error, user} = addUser(socket.id, username, room);
+    socket.on('join', (options, callback) => {
+        const {error, user} = addUser({id: socket.id, ...options});
         if(error) {
             return callback(error);
         }
@@ -61,7 +61,6 @@ io.on('connection', (socket) => {
             });
         }
     });
-
 });
 
 server.listen(port, () => console.log(`Server is up on port ${port}`));
